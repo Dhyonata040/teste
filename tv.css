@@ -1,0 +1,302 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial;
+  color: white;
+  overflow-x: hidden;
+  background: #030303;
+}
+
+/* ===== FUNDO ESTRELADO REAL ===== */
+body::before {
+  content: "";
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  top: 0;
+  left: 0;
+
+  background:
+    radial-gradient(3px 3px at 10% 20%, #fff, transparent),
+    radial-gradient(2px 2px at 30% 80%, #fff, transparent),
+    radial-gradient(2px 2px at 70% 40%, #fff, transparent),
+    radial-gradient(3px 3px at 90% 10%, #fff, transparent),
+    radial-gradient(2px 2px at 50% 50%, #fff, transparent),
+    radial-gradient(1px 1px at 80% 70%, #fff, transparent),
+    radial-gradient(2px 2px at 20% 60%, #fff, transparent),
+    #030303;
+
+  animation: estrelasMov 120s linear infinite,
+             estrelasBrilho 2s ease-in-out infinite;
+
+  z-index: -3;
+}
+
+/* ===== GLOW DO MOUSE ===== */
+body::after {
+  content: "";
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.15), transparent);
+  transform: translate(-50%, -50%);
+  left: var(--x);
+  top: var(--y);
+  z-index: -2;
+}
+
+/* ===== LUA ===== */
+.lua {
+  position: fixed;
+  top: 80px;
+  right: 100px;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, #fff, #aaa);
+  border-radius: 50%;
+  box-shadow:
+    0 0 60px rgba(255,255,255,0.6),
+    0 0 120px rgba(255,255,255,0.2);
+  animation: luaMove 15s ease-in-out infinite alternate;
+  z-index: -1;
+}
+
+/* ===== ANIMAÇÕES ===== */
+@keyframes estrelasMov {
+  from { transform: translate(0,0); }
+  to { transform: translate(-500px, -300px); }
+}
+
+@keyframes estrelasBrilho {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes luaMove {
+  from { transform: translateY(0); }
+  to { transform: translateY(25px); }
+}
+
+/* ===== SIDEBAR ===== */
+#sidebar {
+  width: 230px;
+  height: 100vh;
+  backdrop-filter: blur(25px);
+  background: rgba(15,15,15,0.6);
+  position: fixed;
+  padding: 20px;
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+
+#sidebar h2 {
+  color: red;
+}
+
+#sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+#sidebar li {
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+#sidebar li:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* ===== MAIN ===== */
+#main {
+  margin-left: 250px;
+  padding: 20px;
+  backdrop-filter: blur(20px);
+  background: rgba(10,10,10,0.4);
+  min-height: 100vh;
+}
+
+/* ===== TOPO ===== */
+#topbar input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+/* ===== TITULOS ===== */
+h2 {
+  border-left: 4px solid red;
+  padding-left: 10px;
+  margin-top: 30px;
+}
+
+/* ===== SLIDER ===== */
+#slider {
+  display: flex;
+  gap: 15px;
+  overflow: hidden;
+}
+
+#slider img {
+  width: 300px;
+  border-radius: 15px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+#slider img:hover {
+  transform: scale(1.08);
+}
+
+/* ===== STREAMING ===== */
+#streaming {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+#streaming div {
+  width: 100px;
+  text-align: center;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+#streaming div:hover {
+  transform: scale(1.1);
+  background: rgba(255,255,255,0.08);
+}
+
+#streaming img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+#streaming p {
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* ===== FILMES ===== */
+#listaFilmes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+#listaFilmes div {
+  width: 150px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#listaFilmes div:hover {
+  transform: scale(1.1);
+}
+
+#listaFilmes img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+#listaFilmes p {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* ===== BRILHO NOS FILMES ===== */
+#listaFilmes div::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.6),
+    transparent
+  );
+  transform: skewX(-25deg);
+}
+
+#listaFilmes div:hover::before {
+  animation: brilho 1s;
+}
+
+@keyframes brilho {
+  100% { left: 120%; }
+}
+
+/* ===== TV ===== */
+.tv-card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.tv-card:hover {
+  transform: scale(1.05);
+  background: rgba(255,255,255,0.15);
+}
+
+/* ===== RADIO ===== */
+.radio-card {
+  background: linear-gradient(135deg, red, darkred);
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.radio-card:hover {
+  transform: scale(1.05);
+}
+
+/* ===== PAGINAS ===== */
+.pagina {
+  display: none;
+  animation: fade 0.4s;
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 800px) {
+  #sidebar {
+    display: none;
+  }
+
+  #main {
+    margin-left: 0;
+  }
+
+  #streaming div {
+    width: 80px;
+  }
+
+  #streaming img {
+    width: 50px;
+    height: 50px;
+  }
+}

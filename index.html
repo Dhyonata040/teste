@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>SL TV</title>
+<link rel="stylesheet" href="tv.css">
+</head>
+<body>
+
+<div id="sidebar">
+  <h2>SL TV</h2>
+  <ul>
+    <li onclick="ir('home')">🏠 Home</li>
+    <li onclick="ir('filmes')">🎬 Filmes</li>
+    <li onclick="ir('tv')">📺 TV</li>
+    <li onclick="ir('musica')">🎵 Música</li>
+  </ul>
+</div>
+
+<div id="main">
+
+<div id="topbar">
+  <input id="busca" placeholder="Pesquisar no Google">
+</div>
+
+<div id="home" class="pagina">
+  <h2>Destaques</h2>
+  <div id="slider"></div>
+
+  <h2>Plataformas</h2>
+  <div id="streaming"></div>
+</div>
+
+<div id="filmes" class="pagina">
+  <h2>Filmes</h2>
+  <div id="listaFilmes"></div>
+</div>
+
+<div id="tv" class="pagina">
+  <h2>TV Online</h2>
+  <div id="listaTV"></div>
+</div>
+
+<div id="musica" class="pagina">
+  <h2>Música & Rádio</h2>
+  <div id="listaMusica"></div>
+</div>
+
+</div>
+
+<script src="tv.js"></script>
+</body>
+<div class="lua"></div>
+</html>
