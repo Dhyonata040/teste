@@ -3,47 +3,7 @@ body {
   font-family: 'Segoe UI', Arial;
   color: white;
   overflow-x: hidden;
-  background: #030303;
-}
-
-/* ===== FUNDO ESTRELADO REAL ===== */
-body::before {
-  content: "";
-  position: fixed;
-  width: 200%;
-  height: 200%;
-  top: 0;
-  left: 0;
-
-  background:
-    radial-gradient(3px 3px at 10% 20%, #fff, transparent),
-    radial-gradient(2px 2px at 30% 80%, #fff, transparent),
-    radial-gradient(2px 2px at 70% 40%, #fff, transparent),
-    radial-gradient(3px 3px at 90% 10%, #fff, transparent),
-    radial-gradient(2px 2px at 50% 50%, #fff, transparent),
-    radial-gradient(1px 1px at 80% 70%, #fff, transparent),
-    radial-gradient(2px 2px at 20% 60%, #fff, transparent),
-    #030303;
-
-  animation: estrelasMov 120s linear infinite,
-             estrelasBrilho 2s ease-in-out infinite;
-
-  z-index: -3;
-}
-
-/* ===== GLOW DO MOUSE ===== */
-body::after {
-  content: "";
-  position: fixed;
-  width: 300px;
-  height: 300px;
-  pointer-events: none;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,255,0.15), transparent);
-  transform: translate(-50%, -50%);
-  left: var(--x);
-  top: var(--y);
-  z-index: -2;
+  background: #000; /* fundo limpo pro canvas */
 }
 
 /* ===== LUA ===== */
@@ -51,46 +11,29 @@ body::after {
   position: fixed;
   top: 80px;
   right: 100px;
-  width: 140px;
-  height: 140px;
-  background: radial-gradient(circle, #fff, #aaa);
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, #fff, #bbb);
   border-radius: 50%;
   box-shadow:
-    0 0 60px rgba(255,255,255,0.6),
-    0 0 120px rgba(255,255,255,0.2);
-  animation: luaMove 15s ease-in-out infinite alternate;
+    0 0 40px rgba(255,255,255,0.6),
+    0 0 80px rgba(255,255,255,0.2);
   z-index: -1;
 }
 
-/* ===== ANIMAÇÕES ===== */
-@keyframes estrelasMov {
-  from { transform: translate(0,0); }
-  to { transform: translate(-500px, -300px); }
-}
-
-@keyframes estrelasBrilho {
-  0%,100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
-
-@keyframes luaMove {
-  from { transform: translateY(0); }
-  to { transform: translateY(25px); }
-}
-
-/* ===== SIDEBAR ===== */
+/* ===== SIDEBAR (AJUSTADO) ===== */
 #sidebar {
-  width: 230px;
+  width: 260px;
   height: 100vh;
-  backdrop-filter: blur(25px);
-  background: rgba(15,15,15,0.6);
+  background: rgba(15,15,15,0.85);
   position: fixed;
-  padding: 20px;
+  padding: 25px;
   border-right: 1px solid rgba(255,255,255,0.08);
 }
 
 #sidebar h2 {
   color: red;
+  font-size: 26px;
 }
 
 #sidebar ul {
@@ -99,10 +42,11 @@ body::after {
 }
 
 #sidebar li {
-  padding: 12px;
+  padding: 14px;
   cursor: pointer;
   border-radius: 10px;
   transition: 0.3s;
+  font-size: 18px;
 }
 
 #sidebar li:hover {
@@ -111,10 +55,9 @@ body::after {
 
 /* ===== MAIN ===== */
 #main {
-  margin-left: 250px;
+  margin-left: 280px;
   padding: 20px;
-  backdrop-filter: blur(20px);
-  background: rgba(10,10,10,0.4);
+  background: rgba(10,10,10,0.7);
   min-height: 100vh;
 }
 
@@ -226,7 +169,7 @@ h2 {
   background: linear-gradient(
     120deg,
     transparent,
-    rgba(255,255,255,0.6),
+    rgba(255,255,255,0.5),
     transparent
   );
   transform: skewX(-25deg);
@@ -243,7 +186,6 @@ h2 {
 /* ===== TV ===== */
 .tv-card {
   background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(10px);
   padding: 15px;
   margin: 10px 0;
   border-radius: 12px;
