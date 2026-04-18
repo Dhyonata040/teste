@@ -13,7 +13,7 @@ function ir(pagina){
 // ===== BUSCA =====
 document.getElementById("busca").addEventListener("keypress", function(e){
   if(e.key === "Enter"){
-    window.open("https://www.google.com/search?q=" + this.value);
+    location.href = "https://www.google.com/search?q=" + this.value;
   }
 });
 
@@ -28,7 +28,7 @@ async function carregarCSV(url){
   return text.split("\n").slice(1);
 }
 
-// ===== SLIDER AUTO =====
+// ===== SLIDER (AGORA REDIRECIONA) =====
 async function carregarSlider(){
   let dados = await carregarCSV(SHEET_SLIDER);
   let div = document.getElementById("slider");
@@ -39,7 +39,10 @@ async function carregarSlider(){
 
     let el = document.createElement("img");
     el.src = limpar(img);
-    el.onclick = ()=> window.open(limpar(link));
+
+    el.onclick = ()=>{
+      location.href = limpar(link);
+    };
 
     div.appendChild(el);
   });
@@ -64,7 +67,7 @@ async function carregarStreaming(){
     let el = document.createElement("div");
 
     el.innerHTML = `<img src="${limpar(img)}"><p>${limpar(nome)}</p>`;
-    el.onclick = ()=> window.open(limpar(link));
+    el.onclick = ()=> location.href = limpar(link);
 
     div.appendChild(el);
   });
@@ -80,7 +83,7 @@ async function carregarFilmes(){
 
     let el = document.createElement("div");
     el.innerHTML = `<img src="${limpar(img)}"><p>${limpar(nome)}</p>`;
-    el.onclick = ()=> window.open(limpar(link));
+    el.onclick = ()=> location.href = limpar(link);
 
     div.appendChild(el);
   });
@@ -101,7 +104,7 @@ async function carregarTV(){
     el.className = "tv-card";
     el.innerHTML = `<p>${nome}</p>`;
 
-    el.onclick = ()=> window.open(link);
+    el.onclick = ()=> location.href = link;
 
     div.appendChild(el);
   });
@@ -112,7 +115,7 @@ function carregarMusica(){
   let div = document.getElementById("listaMusica");
 
   div.innerHTML = `
-    <div class="radio-card" onclick="window.open('https://radiosaovivo.net/')">
+    <div class="radio-card" onclick="location.href='https://radiosaovivo.net/'">
       <h2>📻 Rádio ao Vivo</h2>
       <p>Clique para ouvir várias rádios online</p>
     </div>
@@ -127,12 +130,71 @@ carregarFilmes();
 carregarTV();
 carregarMusica();
 
-document.addEventListener("mousemove", (e)=>{
-  document.body.style.setProperty("--x", e.clientX + "px");
-  document.body.style.setProperty("--y", e.clientY + "px");
-});
+// ===== FUNDO ESTRELADO (CANVAS) =====
+const canvas = document.createElement("canvas");
+document.body.appendChild(canvas);
+
+const ctx = canvas.getContext("2d");
+
+canvas.style.position = "fixed";
+canvas.style.top = 0;
+canvas.style.left = 0;
+canvas.style.zIndex = "-2";
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = [];
+
+for(let i = 0; i < 80; i++){
+  stars.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: Math.random() * 2,
+    speed: Math.random() * 0.5
+  });
+}
+
+let mouse = { x: 0, y: 0 };
 
 document.addEventListener("mousemove", (e)=>{
-  document.body.style.setProperty("--x", e.clientX + "px");
-  document.body.style.setProperty("--y", e.clientY + "px");
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  stars.forEach(s=>{
+    s.y += s.speed;
+
+    if(s.y > canvas.height){
+      s.y = 0;
+      s.x = Math.random() * canvas.width;
+    }
+
+    let dx = s.x - mouse.x;
+    let dy = s.y - mouse.y;
+    let dist = Math.sqrt(dx*dx + dy*dy);
+
+    if(dist < 120){
+      s.x += dx * 0.02;
+      s.y += dy * 0.02;
+    }
+
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.size, 0, Math.PI*2);
+    ctx.fillStyle = "white";
+    ctx.fill();
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+// RESPONSIVO
+window.addEventListener("resize", ()=>{
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 });
