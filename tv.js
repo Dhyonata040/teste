@@ -28,10 +28,15 @@ async function carregarCSV(url){
   return text.split("\n").slice(1);
 }
 
-// ===== SLIDER (AGORA REDIRECIONA) =====
+// ===== SLIDER (LISO SEM TRAVAR) =====
 async function carregarSlider(){
   let dados = await carregarCSV(SHEET_SLIDER);
   let div = document.getElementById("slider");
+
+  let track = document.createElement("div");
+  track.className = "slider-track";
+
+  let items = [];
 
   dados.forEach(l=>{
     let [img, link] = l.split(",");
@@ -40,21 +45,23 @@ async function carregarSlider(){
     let el = document.createElement("img");
     el.src = limpar(img);
 
-    el.onclick = ()=>{
-      location.href = limpar(link);
-    };
+    el.onclick = ()=> location.href = limpar(link);
 
-    div.appendChild(el);
+    track.appendChild(el);
+    items.push({img, link});
   });
 
-  let scroll = 0;
-  setInterval(()=>{
-    scroll += 1;
-    div.scrollLeft = scroll;
-    if(scroll >= div.scrollWidth - div.clientWidth){
-      scroll = 0;
-    }
-  }, 30);
+  // DUPLICA PRA LOOP PERFEITO
+  items.forEach(i=>{
+    let el = document.createElement("img");
+    el.src = limpar(i.img);
+
+    el.onclick = ()=> location.href = limpar(i.link);
+
+    track.appendChild(el);
+  });
+
+  div.appendChild(track);
 }
 
 // ===== STREAMING =====
@@ -64,8 +71,8 @@ async function carregarStreaming(){
 
   dados.forEach(l=>{
     let [nome, img, link] = l.split(",");
-    let el = document.createElement("div");
 
+    let el = document.createElement("div");
     el.innerHTML = `<img src="${limpar(img)}"><p>${limpar(nome)}</p>`;
     el.onclick = ()=> location.href = limpar(link);
 
@@ -96,14 +103,12 @@ async function carregarTV(){
 
   dados.forEach(l=>{
     let partes = l.split(",");
-
     let nome = limpar(partes[0]);
     let link = limpar(partes.slice(1).join(","));
 
     let el = document.createElement("div");
     el.className = "tv-card";
     el.innerHTML = `<p>${nome}</p>`;
-
     el.onclick = ()=> location.href = link;
 
     div.appendChild(el);
@@ -130,7 +135,7 @@ carregarFilmes();
 carregarTV();
 carregarMusica();
 
-// ===== FUNDO ESTRELADO (CANVAS) =====
+// ===== FUNDO ESTRELADO =====
 const canvas = document.createElement("canvas");
 document.body.appendChild(canvas);
 
